@@ -7,7 +7,7 @@ import softuni.workshop.service.services.CompanyService;
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
-    private CompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
 
     @Autowired
     public CompanyServiceImpl(CompanyRepository companyRepository) {
@@ -21,8 +21,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public boolean areImported() {
-        //TODO check if repository has any records
-        return false;
+        return this.companyRepository.count() > 0;
     }
 
     @Override

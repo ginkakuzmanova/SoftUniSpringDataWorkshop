@@ -1,5 +1,8 @@
 package softuni.workshop.data.repositories;
 
-public interface ProjectRepository {
-    //TODO
+import org.springframework.data.jpa.repository.JpaRepository;
+import softuni.workshop.data.entities.Project;
+
+public interface ProjectRepository extends JpaRepository<Project, Long> {
+
 }

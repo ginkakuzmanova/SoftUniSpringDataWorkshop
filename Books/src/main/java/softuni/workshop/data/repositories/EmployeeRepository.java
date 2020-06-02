@@ -1,5 +1,8 @@
 package softuni.workshop.data.repositories;
 
-public interface EmployeeRepository  {
-    //TODO
+import org.springframework.data.jpa.repository.JpaRepository;
+import softuni.workshop.data.entities.Employee;
+
+public interface EmployeeRepository extends JpaRepository<Employee,Long> {
+
 }
