@@ -7,4 +7,5 @@ import softuni.workshop.web.models.UserRegisterModel;
 public interface UserService extends UserDetailsService {
 
     UserServiceModel registerUser(UserRegisterModel userRegisterModel);
+    boolean userAlreadyExists(String username);
 }
