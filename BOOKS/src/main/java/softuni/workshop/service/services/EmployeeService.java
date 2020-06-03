@@ -1,8 +1,10 @@
 package softuni.workshop.service.services;
 
+import javax.xml.bind.JAXBException;
+
 public interface EmployeeService {
 
-    void importEmployees();
+    void importEmployees() throws JAXBException;
 
     boolean areImported();
 

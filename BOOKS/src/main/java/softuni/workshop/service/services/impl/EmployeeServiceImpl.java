@@ -1,35 +1,70 @@
 package softuni.workshop.service.services.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import softuni.workshop.data.dtos.EmployeeDto;
+import softuni.workshop.data.dtos.EmployeeRootDto;
+import softuni.workshop.data.entities.Employee;
+import softuni.workshop.data.entities.Project;
 import softuni.workshop.data.repositories.EmployeeRepository;
+import softuni.workshop.data.repositories.ProjectRepository;
 import softuni.workshop.service.services.EmployeeService;
+import softuni.workshop.util.XmlParser;
+
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private static final String XML_PATH = "src\\main\\resources\\files\\xmls\\employees.xml";
+
     private final EmployeeRepository employeeRepository;
+    private final XmlParser xmlParser;
+    private final ProjectRepository projectRepository;
+    private final ModelMapper mapper;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository,
+                               XmlParser xmlParser,
+                               ProjectRepository projectRepository,
+                               ModelMapper mapper) {
         this.employeeRepository = employeeRepository;
+        this.xmlParser = xmlParser;
+        this.projectRepository = projectRepository;
+        this.mapper = mapper;
     }
 
     @Override
-    public void importEmployees() {
-        //TODO seed in database
+    public void importEmployees() throws JAXBException {
+        EmployeeRootDto employeeRootDto = this.xmlParser.unmarshalling(EmployeeRootDto.class,XML_PATH);
+        for (EmployeeDto emp: employeeRootDto.getEmployeeDtoList()) {
+            Employee employee = this.mapper.map(emp,Employee.class);
+            Project empProject = this.projectRepository.findByName(emp.getProjectDto().getName());
+            employee.setProject(empProject);
+
+            this.employeeRepository.saveAndFlush(employee);
+        }
+
     }
 
     @Override
     public boolean areImported() {
-        //TODO check if repository has any records
        return this.employeeRepository.count() > 0;
     }
 
     @Override
     public String readEmployeesXmlFile() {
-        //TODO read xml file
-        return null;
+        String xml = "";
+        try {
+            xml = String.join("\n", Files.readAllLines(Path.of(XML_PATH)));
+        } catch (IOException e) {
+            return "There is something wrong with the file.";
+        }
+        return xml;
     }
 
     @Override
