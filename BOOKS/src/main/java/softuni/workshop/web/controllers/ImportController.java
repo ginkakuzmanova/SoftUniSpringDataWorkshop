@@ -9,6 +9,8 @@ import softuni.workshop.service.services.CompanyService;
 import softuni.workshop.service.services.EmployeeService;
 import softuni.workshop.service.services.ProjectService;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping(path = "/import")
 public class ImportController extends BaseController {
@@ -37,7 +39,10 @@ public class ImportController extends BaseController {
 
     @GetMapping("/companies")
     public ModelAndView importCompanies() {
-        return view("xml/import-companies");
+        ModelAndView model = new ModelAndView();
+        String xmlContent = this.companyService.readCompaniesXmlFile();
+        model.addObject("companies",xmlContent);
+        return view("xml/import-companies",model);
     }
 
     @GetMapping("/projects")

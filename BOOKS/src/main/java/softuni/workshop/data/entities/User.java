@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import softuni.workshop.data.entities.base.BaseEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -23,16 +25,20 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @Column(name = "username", unique = true, nullable = false)
+    @NotEmpty
     public String getUsername() {
         return username;
     }
 
     @Column(name = "password", nullable = false)
+    @NotEmpty
     public String getPassword() {
         return password;
     }
 
     @Column(name = "email", unique = true, nullable = false)
+    @Email
+    @NotEmpty
     public String getEmail() {
         return email;
     }

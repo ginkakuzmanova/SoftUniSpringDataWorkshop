@@ -3,6 +3,7 @@ package softuni.workshop.data.entities;
 import softuni.workshop.data.entities.base.BaseEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
 @Entity
@@ -19,6 +20,7 @@ public class Project extends BaseEntity {
     }
 
     @Column(nullable = false)
+    @NotEmpty
     public String getName() {
         return name;
     }
@@ -28,6 +30,7 @@ public class Project extends BaseEntity {
     }
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    @NotEmpty
     public String getDescription() {
         return description;
     }

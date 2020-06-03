@@ -3,6 +3,7 @@ package softuni.workshop.data.entities;
 import softuni.workshop.data.entities.base.BaseEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity
@@ -18,6 +19,7 @@ public class Employee extends BaseEntity {
     }
 
     @Column(name = "first_name", nullable = false)
+    @NotEmpty
     public String getFirstName() {
         return firstName;
     }
@@ -27,6 +29,7 @@ public class Employee extends BaseEntity {
     }
 
     @Column(name = "last_name", nullable = false)
+    @NotEmpty
     public String getLastName() {
         return lastName;
     }
