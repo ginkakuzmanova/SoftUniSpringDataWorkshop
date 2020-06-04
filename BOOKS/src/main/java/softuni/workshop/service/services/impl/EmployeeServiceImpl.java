@@ -11,11 +11,14 @@ import softuni.workshop.data.repositories.EmployeeRepository;
 import softuni.workshop.data.repositories.ProjectRepository;
 import softuni.workshop.service.services.EmployeeService;
 import softuni.workshop.util.XmlParser;
+import softuni.workshop.web.models.EmployeeViewModel;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -40,9 +43,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void importEmployees() throws JAXBException {
-        EmployeeRootDto employeeRootDto = this.xmlParser.unmarshalling(EmployeeRootDto.class,XML_PATH);
-        for (EmployeeDto emp: employeeRootDto.getEmployeeDtoList()) {
-            Employee employee = this.mapper.map(emp,Employee.class);
+        EmployeeRootDto employeeRootDto = this.xmlParser.unmarshalling(EmployeeRootDto.class, XML_PATH);
+        for (EmployeeDto emp : employeeRootDto.getEmployeeDtoList()) {
+            Employee employee = this.mapper.map(emp, Employee.class);
             Project empProject = this.projectRepository.findByName(emp.getProjectDto().getName());
             employee.setProject(empProject);
 
@@ -53,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean areImported() {
-       return this.employeeRepository.count() > 0;
+        return this.employeeRepository.count() > 0;
     }
 
     @Override
@@ -69,7 +72,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public String exportEmployeesWithAgeAbove() {
-        //TODO export employees with age above 25
-        return null;
+        return findAllByGivenAge().stream().
+                map(EmployeeViewModel::toString)
+                .collect(Collectors.joining("\n"));
     }
+
+    @Override
+    public Set<EmployeeViewModel> findAllByGivenAge() {
+        return this.employeeRepository.findAllByAgeGreaterThan(25)
+                .stream().map(employee ->
+                        this.mapper.map(employee, EmployeeViewModel.class))
+                .collect(Collectors.toSet());
+    }
+
 }
+

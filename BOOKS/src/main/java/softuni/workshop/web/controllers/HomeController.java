@@ -10,9 +10,9 @@ import softuni.workshop.service.services.ProjectService;
 
 @Controller
 public class HomeController extends BaseController {
-    private CompanyService companyService;
-    private ProjectService projectService;
-    private EmployeeService employeeService;
+    private final CompanyService companyService;
+    private final ProjectService projectService;
+    private final EmployeeService employeeService;
 
     @Autowired
     public HomeController(CompanyService companyService,

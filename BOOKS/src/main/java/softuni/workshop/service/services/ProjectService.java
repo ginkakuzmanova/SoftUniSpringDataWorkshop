@@ -1,6 +1,9 @@
 package softuni.workshop.service.services;
 
+import softuni.workshop.web.models.ProjectViewModel;
+
 import javax.xml.bind.JAXBException;
+import java.util.Set;
 
 public interface ProjectService {
 
@@ -11,4 +14,6 @@ public interface ProjectService {
     String readProjectsXmlFile();
 
     String exportFinishedProjects();
+
+    Set<ProjectViewModel> findAllFinishedProjects();
 }
