@@ -1,9 +1,11 @@
 package softuni.workshop.web.controllers;
 
+import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import softuni.workshop.service.services.CompanyService;
 import softuni.workshop.service.services.EmployeeService;
 import softuni.workshop.service.services.ProjectService;
 
@@ -13,10 +15,12 @@ public class ExportController extends BaseController {
 
     private final ProjectService projectService;
     private final EmployeeService employeeService;
+    private final CompanyService companyService;
 
-    public ExportController(ProjectService projectService, EmployeeService employeeService) {
+    public ExportController(ProjectService projectService, EmployeeService employeeService, CompanyService companyService) {
         this.projectService = projectService;
         this.employeeService = employeeService;
+        this.companyService = companyService;
     }
 
     @GetMapping("/project-if-finished")
@@ -35,6 +39,22 @@ public class ExportController extends BaseController {
                 this.employeeService.exportEmployeesWithAgeAbove();
         model.addObject("employeesAbove", employeesWithAgeAbove25);
         return view("/export/export-employees-with-age",model);
+    }
+
+    @GetMapping("/employees-json")
+    public ModelAndView employeesJson(){
+        ModelAndView model = new ModelAndView();
+        String empToJson = this.employeeService.employeeToJson(new Gson());
+        model.addObject("allEmployees",empToJson);
+        return view("export/export-employees-as-json",model);
+    }
+
+    @GetMapping("/companies-json")
+    public ModelAndView companiesJson(){
+        ModelAndView model = new ModelAndView();
+        String compToJson = this.companyService.companyToJson(new Gson());
+        model.addObject("allCompanies",compToJson);
+        return view("export/export-companies-as-json",model);
     }
 
 }

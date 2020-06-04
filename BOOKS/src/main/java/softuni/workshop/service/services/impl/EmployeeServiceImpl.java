@@ -1,5 +1,6 @@
 package softuni.workshop.service.services.impl;
 
+import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,20 @@ public class EmployeeServiceImpl implements EmployeeService {
                         this.mapper.map(employee, EmployeeViewModel.class))
                 .collect(Collectors.toSet());
     }
+
+    @Override
+    public Set<EmployeeViewModel> findAll() {
+        return this.employeeRepository.findAll().stream()
+                .map(e-> this.mapper.map(e,EmployeeViewModel.class)
+                ).collect(Collectors.toSet());
+    }
+
+    @Override
+    @Autowired
+    public String employeeToJson(Gson gson) {
+        return gson.toJson(this.findAll());
+    }
+
 
 }
 

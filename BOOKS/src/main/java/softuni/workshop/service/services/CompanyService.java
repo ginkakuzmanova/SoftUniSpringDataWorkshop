@@ -1,7 +1,11 @@
 package softuni.workshop.service.services;
 
+import com.google.gson.Gson;
+import softuni.workshop.data.entities.Company;
+import softuni.workshop.web.models.CompanyViewModel;
+
 import javax.xml.bind.JAXBException;
-import java.io.IOException;
+import java.util.List;
 
 public interface CompanyService {
 
@@ -10,4 +14,9 @@ public interface CompanyService {
     boolean areImported();
 
     String readCompaniesXmlFile();
+
+    List<CompanyViewModel> findAll();
+
+    String companyToJson(Gson gson);
+
 }

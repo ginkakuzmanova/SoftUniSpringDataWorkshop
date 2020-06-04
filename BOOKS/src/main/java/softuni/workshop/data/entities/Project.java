@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "projects")
 public class Project extends BaseEntity {
-   private String name;
-   private String description;
-   private boolean isFinished;
-   private BigDecimal payment;
-   private String startDate;
-   private Company company;
+    private String name;
+    private String description;
+    private boolean isFinished;
+    private BigDecimal payment;
+    private String startDate;
+    private Company company;
 
     public Project() {
     }
@@ -65,6 +65,7 @@ public class Project extends BaseEntity {
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
+
 
     @ManyToOne(targetEntity = Company.class)
     public Company getCompany() {

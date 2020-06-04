@@ -1,11 +1,9 @@
 package softuni.workshop.data.entities;
 
+import com.google.gson.annotations.Expose;
 import softuni.workshop.data.entities.base.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -26,7 +24,7 @@ public class Company extends BaseEntity {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "company", targetEntity = Project.class)
+    @OneToMany(mappedBy = "company", targetEntity = Project.class, fetch = FetchType.EAGER)
     public Set<Project> getProjects() {
         return projects;
     }

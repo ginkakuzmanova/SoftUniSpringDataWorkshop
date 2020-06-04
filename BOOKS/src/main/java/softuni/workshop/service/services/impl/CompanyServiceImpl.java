@@ -1,5 +1,6 @@
 package softuni.workshop.service.services.impl;
 
+import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,11 +10,14 @@ import softuni.workshop.data.entities.Company;
 import softuni.workshop.data.repositories.CompanyRepository;
 import softuni.workshop.service.services.CompanyService;
 import softuni.workshop.util.XmlParser;
+import softuni.workshop.web.models.CompanyViewModel;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -58,5 +62,19 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
         return xml;
+    }
+
+    @Override
+    public List<CompanyViewModel> findAll() {
+        return this.companyRepository.findAll()
+                .stream()
+                .map(company -> this.mapper.map(company, CompanyViewModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Autowired
+    public String companyToJson(Gson gson) {
+        return gson.toJson(this.findAll());
     }
 }
