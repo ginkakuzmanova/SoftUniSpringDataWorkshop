@@ -30,16 +30,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final XmlParser xmlParser;
     private final ProjectRepository projectRepository;
     private final ModelMapper mapper;
+    private final Gson gson;
 
     @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                XmlParser xmlParser,
                                ProjectRepository projectRepository,
-                               ModelMapper mapper) {
+                               ModelMapper mapper,Gson gson) {
         this.employeeRepository = employeeRepository;
         this.xmlParser = xmlParser;
         this.projectRepository = projectRepository;
         this.mapper = mapper;
+        this.gson = gson;
     }
 
     @Override
@@ -94,8 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @Autowired
-    public String employeeToJson(Gson gson) {
+    public String employeeToJson() {
         return gson.toJson(this.findAll());
     }
 

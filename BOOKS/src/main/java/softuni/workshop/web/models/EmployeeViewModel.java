@@ -1,10 +1,16 @@
 package softuni.workshop.web.models;
 
+import com.google.gson.annotations.Expose;
+
 public class EmployeeViewModel {
 
+    @Expose
     private String firstName;
+    @Expose
     private String lastName;
+    @Expose
     private int age;
+    @Expose
     private String projectName;
 
     public EmployeeViewModel() {

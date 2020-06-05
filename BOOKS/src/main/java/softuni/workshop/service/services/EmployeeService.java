@@ -20,5 +20,5 @@ public interface EmployeeService {
 
     Set<EmployeeViewModel> findAll();
 
-    String employeeToJson(Gson gson);
+    String employeeToJson();
 }

@@ -27,12 +27,14 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
     private final XmlParser xmlParser;
     private final ModelMapper mapper;
+    private final Gson gson;
 
     @Autowired
-    public CompanyServiceImpl(CompanyRepository companyRepository, XmlParser xmlParser, ModelMapper mapper) {
+    public CompanyServiceImpl(CompanyRepository companyRepository, XmlParser xmlParser, ModelMapper mapper, Gson gson) {
         this.companyRepository = companyRepository;
         this.xmlParser = xmlParser;
         this.mapper = mapper;
+        this.gson = gson;
     }
 
     @Override
@@ -73,8 +75,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    @Autowired
-    public String companyToJson(Gson gson) {
+    public String companyToJson() {
         return gson.toJson(this.findAll());
     }
 }

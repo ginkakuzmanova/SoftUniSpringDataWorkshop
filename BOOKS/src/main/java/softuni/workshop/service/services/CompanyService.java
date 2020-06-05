@@ -17,6 +17,6 @@ public interface CompanyService {
 
     List<CompanyViewModel> findAll();
 
-    String companyToJson(Gson gson);
+    String companyToJson();
 
 }
